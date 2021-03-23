@@ -14,6 +14,8 @@ public class FrmInicioJuego extends javax.swing.JFrame {
     /**
      * Creates new form FrmInicioJuego
      */
+    String color;
+    
     public FrmInicioJuego() {
         initComponents();
     }
@@ -27,21 +29,133 @@ public class FrmInicioJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
+        lblJugador = new javax.swing.JLabel();
+        btnAtras = new javax.swing.JButton();
+        btnNuevaPartida = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        btnBuscarPartida = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inicio Juego");
+
+        jPanel3.setBackground(new java.awt.Color(0, 102, 204));
+
+        lblJugador.setFont(new java.awt.Font("Gill Sans Ultra Bold", 1, 36)); // NOI18N
+        lblJugador.setForeground(new java.awt.Color(255, 255, 255));
+        lblJugador.setText("INICIO JUEGO");
+        lblJugador.setToolTipText("");
+
+        btnAtras.setBackground(new java.awt.Color(204, 204, 204));
+        btnAtras.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnAtras.setForeground(new java.awt.Color(0, 51, 51));
+        btnAtras.setText("ATRAS");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
+
+        btnNuevaPartida.setBackground(new java.awt.Color(204, 204, 204));
+        btnNuevaPartida.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnNuevaPartida.setForeground(new java.awt.Color(0, 51, 51));
+        btnNuevaPartida.setText("NUEVA PARTIDA");
+        btnNuevaPartida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaPartidaActionPerformed(evt);
+            }
+        });
+
+        btnBuscarPartida.setBackground(new java.awt.Color(204, 204, 204));
+        btnBuscarPartida.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnBuscarPartida.setForeground(new java.awt.Color(0, 51, 51));
+        btnBuscarPartida.setText("BUSCAR PARTIDA");
+        btnBuscarPartida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarPartidaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblJugador)
+                .addGap(57, 57, 57))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(btnNuevaPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(btnBuscarPartida)
+                .addGap(45, 45, 45))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblJugador)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscarPartida, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(btnNuevaPartida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+        FrmUsuario u= new FrmUsuario();
+        u.setLocationRelativeTo(null);
+        u.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnNuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaPartidaActionPerformed
+        // TODO add your handling code here:
+        FrmOpcionesJuego o= new FrmOpcionesJuego();
+        o.setLocationRelativeTo(null);
+        o.color=color;
+        o.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_btnNuevaPartidaActionPerformed
+
+    private void btnBuscarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPartidaActionPerformed
+        // TODO add your handling code here:
+        FrmSalaEspera s= new FrmSalaEspera();
+        s.setLocationRelativeTo(null);
+        s.color=color;
+        s.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBuscarPartidaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +193,12 @@ public class FrmInicioJuego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnBuscarPartida;
+    private javax.swing.JButton btnNuevaPartida;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblJugador;
     // End of variables declaration//GEN-END:variables
 }

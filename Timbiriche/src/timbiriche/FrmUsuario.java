@@ -5,6 +5,8 @@
  */
 package timbiriche;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Abrahan Barrios
@@ -14,6 +16,8 @@ public class FrmUsuario extends javax.swing.JFrame {
     /**
      * Creates new form FrmUsuario
      */
+    String color;
+    
     public FrmUsuario() {
         initComponents();
     }
@@ -27,21 +31,248 @@ public class FrmUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel3 = new javax.swing.JPanel();
+        lblJugador = new javax.swing.JLabel();
+        btnAtras2 = new javax.swing.JButton();
+        txtUsuario = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnRojo = new javax.swing.JRadioButton();
+        btnAzul = new javax.swing.JRadioButton();
+        btnVerde = new javax.swing.JRadioButton();
+        btnAmarillo = new javax.swing.JRadioButton();
+        btnContinuar = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblSelec = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Usuario");
+
+        jPanel3.setBackground(new java.awt.Color(0, 102, 204));
+
+        lblJugador.setFont(new java.awt.Font("Gill Sans Ultra Bold", 1, 36)); // NOI18N
+        lblJugador.setForeground(new java.awt.Color(255, 255, 255));
+        lblJugador.setText("Jugador");
+        lblJugador.setToolTipText("");
+
+        btnAtras2.setBackground(new java.awt.Color(204, 204, 204));
+        btnAtras2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnAtras2.setForeground(new java.awt.Color(0, 51, 51));
+        btnAtras2.setText("ATRAS");
+        btnAtras2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtras2ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setText("Nombre");
+
+        btnRojo.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        btnRojo.setForeground(new java.awt.Color(204, 0, 0));
+        btnRojo.setText("Rojo");
+        btnRojo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRojoActionPerformed(evt);
+            }
+        });
+
+        btnAzul.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        btnAzul.setForeground(new java.awt.Color(0, 0, 255));
+        btnAzul.setText("Azul");
+        btnAzul.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAzulActionPerformed(evt);
+            }
+        });
+
+        btnVerde.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        btnVerde.setForeground(new java.awt.Color(0, 153, 0));
+        btnVerde.setText("Verde");
+        btnVerde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerdeActionPerformed(evt);
+            }
+        });
+
+        btnAmarillo.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        btnAmarillo.setForeground(new java.awt.Color(255, 204, 0));
+        btnAmarillo.setText("Amarillo");
+        btnAmarillo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAmarilloActionPerformed(evt);
+            }
+        });
+
+        btnContinuar.setBackground(new java.awt.Color(204, 204, 204));
+        btnContinuar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnContinuar.setForeground(new java.awt.Color(0, 51, 51));
+        btnContinuar.setText("CONTINUAR");
+        btnContinuar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContinuarActionPerformed(evt);
+            }
+        });
+
+        lblSelec.setForeground(new java.awt.Color(255, 255, 255));
+        lblSelec.setText("Seleccione un color");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnRojo)
+                        .addGap(37, 37, 37)
+                        .addComponent(btnVerde))
+                    .addComponent(btnAtras2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnAzul)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnAmarillo))
+                    .addComponent(btnContinuar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85))
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(lblJugador))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(lblSelec)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jSeparator2)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblJugador)
+                .addGap(32, 32, 32)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSelec)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAzul)
+                    .addComponent(btnRojo)
+                    .addComponent(btnVerde)
+                    .addComponent(btnAmarillo))
+                .addGap(16, 16, 16)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAtras2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAtras2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtras2ActionPerformed
+        // TODO add your handling code here:
+        FrmInicio i= new FrmInicio();
+        i.setLocationRelativeTo(null);
+        i.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAtras2ActionPerformed
+
+    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
+        // TODO add your handling code here:
+        if(!btnAmarillo.isSelected()&&!btnAzul.isSelected()&&!btnVerde.isSelected()&&!btnRojo.isSelected()){
+            JOptionPane.showMessageDialog(this, "Elige un color!!! ", "Espera",JOptionPane.ERROR_MESSAGE);
+           return;
+        }
+        FrmInicioJuego i= new FrmInicioJuego();
+        i.color= color;
+        i.setLocationRelativeTo(null);
+        i.setVisible(true);
+        this.dispose();
+        
+        
+    }//GEN-LAST:event_btnContinuarActionPerformed
+
+    private void btnRojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRojoActionPerformed
+        // TODO add your handling code here:
+        if(btnAmarillo.isSelected()){
+            btnAmarillo.setSelected(false);
+        }else if(btnAzul.isSelected()){
+            btnAzul.setSelected(false);
+        }else if(btnVerde.isSelected()){
+            btnVerde.setSelected(false);
+        }
+        
+        color="rojo";
+    }//GEN-LAST:event_btnRojoActionPerformed
+
+    private void btnVerdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerdeActionPerformed
+        // TODO add your handling code here:
+        if(btnAmarillo.isSelected()){
+            btnAmarillo.setSelected(false);
+        }else if(btnAzul.isSelected()){
+            btnAzul.setSelected(false);
+        }else if(btnRojo.isSelected()){
+            btnRojo.setSelected(false);
+        }
+        
+        color="verde";
+    }//GEN-LAST:event_btnVerdeActionPerformed
+
+    private void btnAzulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAzulActionPerformed
+        // TODO add your handling code here:
+        if(btnAmarillo.isSelected()){
+            btnAmarillo.setSelected(false);
+        }else if(btnVerde.isSelected()){
+            btnVerde.setSelected(false);
+        }else if(btnRojo.isSelected()){
+            btnRojo.setSelected(false);
+        }
+        
+        color="azul";
+    }//GEN-LAST:event_btnAzulActionPerformed
+
+    private void btnAmarilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAmarilloActionPerformed
+        // TODO add your handling code here:
+        if(btnAzul.isSelected()){
+            btnAzul.setSelected(false);
+        }else if(btnVerde.isSelected()){
+            btnVerde.setSelected(false);
+        }else if(btnRojo.isSelected()){
+            btnRojo.setSelected(false);
+        }
+        
+        color="amarillo";
+    }//GEN-LAST:event_btnAmarilloActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +310,28 @@ public class FrmUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton btnAmarillo;
+    private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnAtras1;
+    private javax.swing.JButton btnAtras2;
+    private javax.swing.JRadioButton btnAzul;
+    private javax.swing.JButton btnContinuar;
+    private javax.swing.JRadioButton btnRojo;
+    private javax.swing.JRadioButton btnVerde;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblJugador;
+    private javax.swing.JLabel lblReglas;
+    private javax.swing.JLabel lblReglas1;
+    private javax.swing.JLabel lblSelec;
+    private javax.swing.JTextPane txtReglas;
+    private javax.swing.JTextPane txtReglas1;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
