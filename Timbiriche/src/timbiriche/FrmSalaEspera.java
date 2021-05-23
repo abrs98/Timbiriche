@@ -5,22 +5,165 @@
  */
 package timbiriche;
 
+import DataTransferObjects.DataMensaje;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import objetosNegocio.Jugador;
+import objetosNegocio.Scorer;
+import utileria.IActualizable;
+import Cliente.Cliente;
+import Cliente.ICliente;
 
 /**
  *
  * @author Abrahan Barrios
  */
-public class FrmSalaEspera extends javax.swing.JFrame {
+public class FrmSalaEspera extends javax.swing.JFrame implements IActualizable {
 
     /**
      * Creates new form FrmSalaEspera
      */
-    String color;
-    
-    public FrmSalaEspera() {
-        initComponents();
+    private Jugador jugador;
+    private String ip;
+    private int port;
+    private static FrmSalaEspera instance;
+    private ICliente sck;
+    private int jugadoresDibujados = 0;
+    private String colores[];
+    DefaultTableModel modelo2;
 
+    private FrmSalaEspera() {
+        initComponents();
+        this.setSize(540, 400);
+        this.setLocationRelativeTo(null);
+        this.setTitle("Sala de espera. Un momento");
+        this.sck = new Cliente(jugador, this);
+    }
+
+    public static FrmSalaEspera getInstance() {
+        if (instance == null) {
+            instance = new FrmSalaEspera();
+        }
+        return instance;
+    }
+
+    public String[] getColores() {
+        return colores;
+    }
+
+    public void setColores(String[] colores) {
+        this.colores = colores;
+    }
+
+    public boolean ejecutarConexion(Jugador jugador, String ip, int port) {
+        this.jugador = jugador;
+        this.ip = ip;
+        this.port = port;
+
+        if (sck.conectarAlServidor(this.ip, this.port)) {
+            System.out.println("Conectado con exito");
+            sck.enviarAlServidor(this.jugador);
+            sck.escucharAlServidor();
+            return true;
+        } else {
+            System.out.println("No se pudo conectar con el servidor");
+            return false;
+        }
+    }
+
+    public void recibirMensaje(String mensaje) {
+        txtMensajes.setText(mensaje);
+        txtMensajes.revalidate();
+        validate();
+    }
+    
+    private void CrearModelo() {
+        try {
+            modelo2 = (new DefaultTableModel(
+                    null, new String[]{
+                        "Numero", "Nombre",
+                        "Color"}) {
+                Class[] types = new Class[]{
+                    java.lang.String.class, //aqui es el tipo de columna, dejemoslo en STRING
+                    java.lang.String.class,
+                    java.lang.String.class,
+                  
+                    };
+                boolean[] canEdit = new boolean[]{ //aquí decimos si podrán ser editables o no.
+                    false, false, false
+                };
+
+                @Override
+                public Class getColumnClass(int columnIndex) {
+                    return types[columnIndex];
+                }
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return canEdit[colIndex];
+                }
+            });
+            tblSala.setModel(modelo2);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString() + "error");
+        }
+    }
+
+
+    public void recibirJugadores(List<Jugador> jugadores) {
+
+        CrearModelo();
+
+        try {
+            System.out.println("si se está ejecutando"); //mensaje para saber si se está ejecutando el método.
+
+            Object O[] = null;
+
+
+            //para buscar personas usaremos un ciclo for.
+            for (int i = 0; i < jugadores.size(); i++) {
+                System.out.println("" + jugadores.get(i).getNombre()); //hasta este paso, solo sale la info en consola, aun no se muestra en la tabla.
+                modelo2.addRow(O); //aquí pediremos que se agregue la informacion del arreglo,
+                modelo2.setValueAt((i+1), i, 0); //el numero al final 0 indica el lugar donde se mostrará en la tabla la información..
+                modelo2.setValueAt(jugadores.get(i).getNombre(), i, 1);
+                modelo2.setValueAt(jugadores.get(i).getColor(), i, 2);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
         
+//        for (int i = 0; i < jugadores.size(); i++) {
+//
+//            Jugador jugador = jugadores.get(i);
+//            int num = i + 1;
+//            String nombre = jugador.getNombre();
+//            String color = jugador.getColor();
+//            switch (i) {
+//                case 0:
+//                    this.tblSala.setValueAt(num, i, 0);
+//                    this.tblSala.setValueAt(nombre, i, 1);
+//                    this.tblSala.setValueAt(color, i, 2);
+//                    break;
+//                case 1:
+//                    this.tblSala.setValueAt(num, i, 0);
+//                    this.tblSala.setValueAt(nombre, i, 1);
+//                    this.tblSala.setValueAt(color, i, 2);
+//                    break;
+//                case 2:
+//                    this.tblSala.setValueAt(num, i, 0);
+//                    this.tblSala.setValueAt(nombre, i, 1);
+//                    this.tblSala.setValueAt(color, i, 2);
+//                    break;
+//                case 3:
+//                    this.tblSala.setValueAt(num, i, 0);
+//                    this.tblSala.setValueAt(nombre, i, 1);
+//                    this.tblSala.setValueAt(color, i, 2);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
     }
 
     /**
@@ -39,12 +182,13 @@ public class FrmSalaEspera extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSala = new javax.swing.JTable();
         lblOpcion = new javax.swing.JLabel();
-        opcion1 = new java.awt.Button();
-        button2 = new java.awt.Button();
-        opcion3 = new java.awt.Button();
-        opcion4 = new java.awt.Button();
+        votar1 = new java.awt.Button();
+        votar2 = new java.awt.Button();
+        votar3 = new java.awt.Button();
+        votar4 = new java.awt.Button();
+        txtMensajes = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sala de Espera");
@@ -66,54 +210,58 @@ public class FrmSalaEspera extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSala.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "Pedro", "2"},
-                {"02", "Juan", "2"},
-                {"03", "Jose", "3"},
-                {"04", "Raul", "3"}
+                {"01", "Pedro", "Green"},
+                {"02", "Juan", "Blue"},
+                {"03", "Jose", "Yellow"},
+                {"04", "Raul", null}
             },
             new String [] {
-                "Sala", "Host", "Jugadores"
+                "Jugador", "Nombre", "Color"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        jScrollPane1.setViewportView(tblSala);
+        if (tblSala.getColumnModel().getColumnCount() > 0) {
+            tblSala.getColumnModel().getColumn(0).setResizable(false);
+            tblSala.getColumnModel().getColumn(1).setResizable(false);
+            tblSala.getColumnModel().getColumn(2).setResizable(false);
         }
 
         lblOpcion.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblOpcion.setText("Opcion");
+        lblOpcion.setText("Opción");
 
-        opcion1.setLabel("Entrar");
-        opcion1.addActionListener(new java.awt.event.ActionListener() {
+        votar1.setLabel("Votar");
+        votar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opcion1ActionPerformed(evt);
+                votar1ActionPerformed(evt);
             }
         });
 
-        button2.setLabel("Entrar");
-        button2.addActionListener(new java.awt.event.ActionListener() {
+        votar2.setLabel("Votar");
+        votar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                votar2ActionPerformed(evt);
             }
         });
 
-        opcion3.setLabel("Entrar");
-        opcion3.addActionListener(new java.awt.event.ActionListener() {
+        votar3.setLabel("Votar");
+        votar3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opcion3ActionPerformed(evt);
+                votar3ActionPerformed(evt);
             }
         });
 
-        opcion4.setActionCommand("Entrar");
-        opcion4.setLabel("Entrar");
-        opcion4.setName("Entrar"); // NOI18N
-        opcion4.addActionListener(new java.awt.event.ActionListener() {
+        votar4.setLabel("Votar");
+        votar4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opcion4ActionPerformed(evt);
+                votar4ActionPerformed(evt);
+            }
+        });
+
+        txtMensajes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMensajesActionPerformed(evt);
             }
         });
 
@@ -127,19 +275,23 @@ public class FrmSalaEspera extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(opcion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(opcion3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(opcion4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblOpcion))
+                    .addComponent(votar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblOpcion)
+                    .addComponent(votar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(votar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(votar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(65, 65, 65))
+            .addComponent(jSeparator2)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblSala)
                 .addGap(59, 59, 59))
-            .addComponent(jSeparator2)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addGap(47, 47, 47)
+                .addComponent(txtMensajes, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(179, 179, 179)
                 .addComponent(btnAtras2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -152,24 +304,26 @@ public class FrmSalaEspera extends javax.swing.JFrame {
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblOpcion)
-                        .addGap(24, 24, 24)
-                        .addComponent(opcion1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(opcion3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(opcion4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addComponent(votar1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(votar2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(votar3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(votar4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMensajes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAtras2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -190,43 +344,39 @@ public class FrmSalaEspera extends javax.swing.JFrame {
 
     private void btnAtras2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtras2ActionPerformed
         // TODO add your handling code here:
-        FrmInicio i= new FrmInicio();
+        FrmInicio i = new FrmInicio();
         i.setLocationRelativeTo(null);
         i.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAtras2ActionPerformed
 
-    private void opcion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion1ActionPerformed
+    private void votar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_votar1ActionPerformed
         // TODO add your handling code here:
-        FrmPartida i= new FrmPartida();
-        i.setLocationRelativeTo(null);
-        i.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_opcion1ActionPerformed
+        JOptionPane.showMessageDialog(null, "Jugador ha confirmado el inicio!!!");
+        sck.enviarAlServidor(DataMensaje.VOTO);
+    }//GEN-LAST:event_votar1ActionPerformed
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void votar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_votar2ActionPerformed
         // TODO add your handling code here:
-        FrmPartida i= new FrmPartida();
-        i.setLocationRelativeTo(null);
-        i.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_button2ActionPerformed
+        JOptionPane.showMessageDialog(null, "Jugador ha confirmado el inicio!!!");
+        sck.enviarAlServidor(DataMensaje.VOTO);
+    }//GEN-LAST:event_votar2ActionPerformed
 
-    private void opcion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion3ActionPerformed
+    private void votar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_votar3ActionPerformed
         // TODO add your handling code here:
-        FrmPartida i= new FrmPartida();
-        i.setLocationRelativeTo(null);
-        i.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_opcion3ActionPerformed
+        JOptionPane.showMessageDialog(null, "Jugador ha confirmado el inicio!!!");
+        sck.enviarAlServidor(DataMensaje.VOTO);
+    }//GEN-LAST:event_votar3ActionPerformed
 
-    private void opcion4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion4ActionPerformed
+    private void votar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_votar4ActionPerformed
         // TODO add your handling code here:
-        FrmPartida i= new FrmPartida();
-        i.setLocationRelativeTo(null);
-        i.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_opcion4ActionPerformed
+        JOptionPane.showMessageDialog(null, "Jugador ha confirmado el inicio!!!");
+        sck.enviarAlServidor(DataMensaje.VOTO);
+    }//GEN-LAST:event_votar4ActionPerformed
+
+    private void txtMensajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMensajesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMensajesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,17 +415,32 @@ public class FrmSalaEspera extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras2;
-    private java.awt.Button button2;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblOpcion;
     private javax.swing.JLabel lblSala;
-    private java.awt.Button opcion1;
-    private java.awt.Button opcion3;
-    private java.awt.Button opcion4;
+    private javax.swing.JTable tblSala;
+    private javax.swing.JTextField txtMensajes;
+    private java.awt.Button votar1;
+    private java.awt.Button votar2;
+    private java.awt.Button votar3;
+    private java.awt.Button votar4;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actualizaDeSocket(Object mensaje) {
+        if (mensaje instanceof String) {
+            recibirMensaje((String) mensaje);
+        } else if (mensaje instanceof List) {
+            recibirJugadores((List<Jugador>) mensaje);
+        } else if (mensaje instanceof Scorer) {
+            FrmPartida frmSala = new FrmPartida((Scorer) mensaje, this.jugador);
+            frmSala.setVisible(true);
+            frmSala.setColores(colores);
+            this.dispose();
+        }
+    }
 }
